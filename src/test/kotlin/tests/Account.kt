@@ -132,7 +132,7 @@ class Account : Base() {
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutAccountId(idConta.toString())), "conta_id", "Conta é obrigatório"),
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoudDescription(idConta.toString())),"descricao", "Descrição é obrigatório"),
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutInvolved(idConta.toString())),"envolvido", "Interessado é obrigatório"),
-                Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutDateTransaction(idConta.toString())),"data_trasacao", "Data de movimentação é obrigatório"),
+                Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutDateTransaction(idConta.toString())),"data_trasacao", "Data da Movimentação é obrigatório"),
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutPaymentDay(idConta.toString())),"data_pagamento", "Data do pagamento é obrigatório"),
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutValue(idConta.toString())),"valor", "Valor é obrigatório"),
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutStatus(idConta.toString())),"status", "Situação é obrigatório"),
