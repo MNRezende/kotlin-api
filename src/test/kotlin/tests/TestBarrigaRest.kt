@@ -4,12 +4,7 @@ import api.Accounts
 import api.Base
 import api.Transactions
 import factories.TransactionsFactory
-import io.restassured.module.kotlin.extensions.Extract
-import io.restassured.module.kotlin.extensions.Given
-import io.restassured.module.kotlin.extensions.Then
-import io.restassured.module.kotlin.extensions.When
 import io.restassured.response.Response
-import org.apache.commons.codec.StringDecoder
 import org.junit.jupiter.api.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -18,7 +13,8 @@ import java.util.stream.Stream
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class Account : Base() {
+
+class TestBarrigaRest : Base() {
 
     private val accounts = Accounts()
     private val transactions = Transactions()
@@ -32,24 +28,21 @@ class Account : Base() {
         assertAll("Register Without Account",
             { assertNotNull(response) },
             { assertEquals(200, response.statusCode) },
-            { assertEquals(7, response.jsonPath().getInt("size()")) })
+            { assertEquals(8, response.jsonPath().getInt("size()")) })
     }
     @DisplayName("Include Account with success")
     @Test
-    @Tag("smoke")
     fun includeAccountSuccess() {
-        val nomeConta = "Conta Reinkk"
+        val nomeConta = "Conta do Mano Reink"
         val response = accounts.postAccount(nomeConta)
 
-        assertAll("Include Account",
-
+        assertAll("Incluir conta",
             { assertNotNull(response) },
-            { assertEquals(201, response.statusCode) },
+            { assertEquals(400, response.statusCode()) },
             { assertNotNull(response.jsonPath().getInt("id")) },
             { assertEquals(nomeConta, response.jsonPath().getString("nome")) },
             { assertEquals(true, response.jsonPath().getBoolean("visivel")) },
             { assertNotNull(response.jsonPath().getInt("usuario_id")) }
-
             )
         val idConta = response.jsonPath().getInt("id")
         accounts.deleteAccount(idConta.toString())
@@ -57,15 +50,15 @@ class Account : Base() {
     @DisplayName("Change account name")
     @Test
     fun changeSuccessAccount() {
-        val response1 = accounts.postAccount("Nova Conta Reink")
+        val response1 = accounts.postAccount("Nova Conta Reinkk")
         val idConta = response1.jsonPath().getInt("id")
-        val nomeConta = "Conta R 2"
+        val nomeConta = "Nova Conta Reinkk"
 
         val response2 = accounts.putAccount(nomeConta, idConta.toString())
 
         assertAll("Change Account",
             { assertNotNull(response2) },
-            { assertEquals(200, response2.statusCode()) },
+            { assertEquals(200, response2.statusCode) },
             { assertEquals(idConta, response2.jsonPath().getInt("id")) },
             { assertEquals(nomeConta, response2.jsonPath().getString("nome")) },
             { assertEquals(true, response2.jsonPath().getBoolean("visivel")) },
@@ -92,7 +85,7 @@ class Account : Base() {
     @DisplayName("Insert transaction with success")
     @Test
     fun includeTransactionSuccess() {
-        val response1 = accounts.postAccount("Conta Re")
+        val response1 = accounts.postAccount("Conta Reink")
         val idConta = response1.jsonPath().getInt("id")
 
         val pojo = transactionsFactory.successBody(idConta.toString())
@@ -132,7 +125,7 @@ class Account : Base() {
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutAccountId(idConta.toString())), "conta_id", "Conta é obrigatório"),
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoudDescription(idConta.toString())),"descricao", "Descrição é obrigatório"),
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutInvolved(idConta.toString())),"envolvido", "Interessado é obrigatório"),
-                Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutDateTransaction(idConta.toString())),"data_trasacao", "Data da Movimentação é obrigatório"),
+                Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutDateTransaction(idConta.toString())),"data_transacao", "Data da Movimentação é obrigatório"),
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutPaymentDay(idConta.toString())),"data_pagamento", "Data do pagamento é obrigatório"),
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutValue(idConta.toString())),"valor", "Valor é obrigatório"),
                 Arguments.arguments(transactions.postTransactions(transactionsFactory.bodyWithoutStatus(idConta.toString())),"status", "Situação é obrigatório"),

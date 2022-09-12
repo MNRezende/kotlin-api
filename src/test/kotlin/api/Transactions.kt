@@ -11,7 +11,7 @@ import pojo.PojoTransactions
 class Transactions : Base() {
 
     private val TRANSACTIONS_PATH = "transacoes"
-    private val TRANSACTIONS_ID_PATH = "{/idTrasacoes}"
+    private val TRANSACTIONS_ID_PATH = "/{idTrasacoes}"
     private val TRANSACTIONS_ID_PARAM = "idTransacoes"
 
     fun postTransactions(pojoTransactions: PojoTransactions) : Response {

@@ -13,9 +13,9 @@ class Accounts : Base() {
     private val PATH_ID_ACCOUNT = "/{idConta}"
     private val PATH_ID_ACCOUNT_PARAM = "idConta"
 
-    private fun bodyAccount(accountName: String) : String {
+    private fun bodyAccount(nomeConta: String) : String {
         return "{\n" +
-                " \"nome\" : \"$accountName\"\n"
+                " \"nome\" : \"$nomeConta\"\n"
                 "}"
     }
 
@@ -31,11 +31,11 @@ class Accounts : Base() {
         }
     }
 
-    fun postAccount(accountName: String) : Response {
+    fun postAccount(nomeConta: String) : Response {
         return Given{
             spec(specBaseToken())
             contentType(ContentType.JSON)
-            body(bodyAccount(accountName))
+            body(bodyAccount(nomeConta))
         }When {
             post(PATH_ACCOUNT)
         }Then {
@@ -45,12 +45,12 @@ class Accounts : Base() {
         }
     }
 
-    fun putAccount(accountName: String, idAccount:String) : Response {
+    fun putAccount(nomeConta: String, idConta:String) : Response {
         return Given {
             spec(specBaseToken())
-            pathParam(PATH_ID_ACCOUNT_PARAM, idAccount)
+            pathParam(PATH_ID_ACCOUNT_PARAM, idConta)
             contentType(ContentType.JSON)
-            body(bodyAccount(accountName))
+            body(bodyAccount(nomeConta))
         }When{
             put(PATH_ACCOUNT+PATH_ID_ACCOUNT)
         }Then {
@@ -60,10 +60,10 @@ class Accounts : Base() {
         }
     }
 
-    fun deleteAccount(idAccount: String) : Response {
+    fun deleteAccount(idConta: String) : Response {
         return Given {
             spec(specBaseToken())
-            pathParam(PATH_ID_ACCOUNT_PARAM, idAccount)
+            pathParam(PATH_ID_ACCOUNT_PARAM, idConta)
         }When {
             delete(PATH_ACCOUNT+PATH_ID_ACCOUNT)
         }Then {
