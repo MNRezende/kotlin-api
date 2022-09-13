@@ -10,5 +10,10 @@ class Signin : Base() {
         val token = getToken()
         println(token)
     }
+    @Test
+    fun testInvalidSingnin() {
+        val token = getToken()
+        println(specBaseToken())
+    }
 
 }
